@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/jbeli1920/ECreditBackend'
+                git branch: 'main', url: 'https://github.com/jbeli1920/ecredit'
             }
         }
 
