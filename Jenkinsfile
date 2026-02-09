@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/jbeli1920/ecredit'
+                git branch: 'safe-branch', url: 'https://github.com/jbeli1920/ecredit'
             }
         }
 
