@@ -4,6 +4,8 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'hamdi1920/ecredit-backend:latest'
         DOCKER_NETWORK = 'ecredit-network'
+        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64' // Make sure this is your Java 11 path
+        PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
     }
 
     stages {
@@ -13,7 +15,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Maven') {
             steps {
                 sh 'mvn clean package -DskipTests'
             }
@@ -28,7 +30,11 @@ pipeline {
         stage('Docker Up') {
             steps {
                 sh """
+                    # Create network if not exists
                     docker network create ${DOCKER_NETWORK} || true
+                    # Stop and remove old containers (if any)
+                    docker compose down || true
+                    # Start containers
                     docker compose up -d
                 """
             }
