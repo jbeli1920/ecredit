@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'hamdi1920/ecredit-backend:latest'
+        DOCKER_IMAGE = 'hamdi1920/backend:latest'
         DOCKER_NETWORK = 'ecredit-network'
         JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
         PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
