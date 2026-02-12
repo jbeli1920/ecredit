@@ -45,7 +45,7 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                sh "mvn sonar:sonar -Dsonar.host.url=${SONAR_URL} -Dsonar.projectKey=ecredit-backend -Dsonar-token=${SONAR-TOKEN}"
+                sh "mvn sonar:sonar -Dsonar.host.url=${SONAR_URL} -Dsonar.projectKey=ecredit-backend -Dsonar-token=${SONAR_TOKEN}"
             }
         }
 
