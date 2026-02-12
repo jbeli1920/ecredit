@@ -9,7 +9,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: hamdi1920/ecredit:latest
+    image: hamdi1920/backend:latest
     ports:
       - "8085:8080"
     environment:
@@ -47,6 +47,38 @@ services:
       - prometheus
     restart: unless-stopped
 
+# ============================================
+  # SONARQUBE (Code Quality)
+  # ============================================
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    ports:
+      - "9000:9000"
+    networks:
+      - ecredit-network
+    environment:
+      - SONAR_JDBC_URL=jdbc:postgresql://db-sonar:5432/sonar
+      - SONAR_JDBC_USERNAME=sonar
+      - SONAR_JDBC_PASSWORD=sonar
+    depends_on:
+      - db-sonar
+    restart: unless-stopped
+
+  db-sonar:
+    image: postgres:15
+    container_name: db-sonar
+    networks:
+      - ecredit-network
+    environment:
+      - POSTGRES_USER=sonar
+      - POSTGRES_PASSWORD=sonar
+      - POSTGRES_DB=sonar
+    volumes:
+      - postgres_sonar_data:/var/lib/postgresql/data
+    restart: unless-stopped
 networks:
   ecredit-network:
     driver: bridge
+volumes:
+  postgres_sonar_data:

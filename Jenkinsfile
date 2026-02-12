@@ -4,8 +4,9 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'hamdi1920/ecredit-backend:latest'
         DOCKER_NETWORK = 'ecredit-network'
-        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64' // Make sure this is your Java 11 path
+        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
         PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
+        SONAR_URL = 'http://localhost:9000'
     }
 
     stages {
@@ -20,6 +21,7 @@ pipeline {
                 sh 'mvn clean package -DskipTests'
             }
         }
+
 
         stage('Docker Build') {
             steps {
@@ -37,8 +39,16 @@ pipeline {
                     # Start containers
                     docker compose up -d
                 """
+            }       
+        }
+
+
+        stage('SonarQube Analysis') {
+            steps {
+                sh "mvn sonar:sonar -Dsonar.host.url=${SONAR_URL} -Dsonar.projectKey=ecredit-backend -Dsonar-token=${SONAR-TOKEN}"
             }
         }
+
 
         stage('Tests') {
             steps {
