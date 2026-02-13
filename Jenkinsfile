@@ -7,6 +7,7 @@ pipeline {
         JAVA_HOME = '/usr/lib/jvm/java-11-openjdk-amd64'
         PATH = "${env.JAVA_HOME}/bin:${env.PATH}"
         SONAR_URL = 'http://localhost:9000'
+        SONAR_TOKEN = credentials('SONAR_TOKEN')
     }
 
     stages {
